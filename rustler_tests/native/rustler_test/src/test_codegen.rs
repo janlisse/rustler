@@ -280,12 +280,27 @@ pub mod enum_struct {
             some_field: f64,
         },
         #[module = "EnumStruct.Baz"]
-        Baz {},
-        // #[module = "EnumStruct.Blub"]
-        Blub(),
+        Baz {}
     }
 
-    mod atoms {
+    #[derive(NifEnumStruct)]
+    pub enum EnumStruct2 {
+        #[module = "EnumStruct.Foo"]
+        Foo {
+            foo1: i32,
+            foo2: String,
+            some_field: String,
+        },
+        #[module = "EnumStruct.Bar"]
+        Bar {
+            bar: bool,
+            some_field: f64,
+        },
+        #[module = "EnumStruct.Baz"]
+        Baz {}
+    }
+
+    /* mod atoms {
         pub mod foo {
             rustler::atoms! {
                 __struct__ = "Elixir.EnumStruct.Foo",
@@ -306,9 +321,9 @@ pub mod enum_struct {
                 __struct__ = "Elixir.EnumStruct.Baz",
             }
         }
-    }
+    } */
 
-    impl<'a> rustler::Decoder<'a> for EnumStruct {
+    /* impl<'a> rustler::Decoder<'a> for EnumStruct {
         fn decode(term: rustler::Term<'a>) -> rustler::NifResult<EnumStruct> {
             let struct_module: rustler::types::atom::Atom =
                 term.map_get(rustler::types::atom::__struct__())?.decode()?;
@@ -377,7 +392,7 @@ pub mod enum_struct {
             }
             .expect("encode an enumstruct")
         }
-    }
+    } */
 
     #[rustler::nif]
     pub fn enum_struct_echo(value: EnumStruct) -> EnumStruct {
